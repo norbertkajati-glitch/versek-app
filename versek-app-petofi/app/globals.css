@@ -1,0 +1,485 @@
+/* VOICE everyday, quiet and literary
+   IDEA a printed anthology: each poem is a typeset book page, poppy-red as the bookmark ribbon
+   PICTURE the poem of the day set large as a book page with a ribbon, on a poppy field band
+   COLOUR white paper, near-black ink, poppy red #c8102e leads, wheat #e5b53a supports, deep green accent
+   TYPE Fraunces display + Literata for verse + Instrument Sans for UI
+   LAYOUT laptop: title and nav on top, poem page left over the red band, poets and themes right; phone: stacked */
+:root{color-scheme:light;--bg:light-dark(#ffffff,#141012);--ink:light-dark(#1b1416,#f3ecee);--soft:light-dark(#6b5f62,#b3a7aa);--line:light-dark(#e6dfe0,#33292c);--red:light-dark(#c8102e,#ff5468);--redbg:light-dark(#c8102e,#7a0f22);--wheat:light-dark(#e5b53a,#e5b53a);--green:light-dark(#1f5e46,#6fcf9f);--page:light-dark(#ffffff,#1e181a);--tint:light-dark(#fbf2f3,#221a1c)}
+:root,:root[data-season=tel]{--season:light-dark(#2f6a9a,#8ec3ee);--sky1:light-dark(#b7cde2,#0b1524);--sky2:light-dark(#eef3f8,#22344d);--far:light-dark(#a7bdd2,#2b3f5a);--mid:light-dark(#d7e3ee,#3c5373);--near:light-dark(#ffffff,#c3d1e0);--trunk:light-dark(#3a3940,#0a0e15);--crown:light-dark(#ffffff,#c3d1e0);--crown2:light-dark(#e6eef5,#9fb2c7);--pt:#ffffff;--win:#f5b942}
+:root[data-season=osz]{--season:light-dark(#b5501d,#f0965f);--sky1:light-dark(#efc78c,#1d1410);--sky2:light-dark(#fbefdf,#3a2618);--far:light-dark(#dcae7d,#4a301f);--mid:light-dark(#c98a4b,#5d3b22);--near:light-dark(#a8662c,#6e4527);--trunk:light-dark(#4a2f1d,#1a100a);--crown:light-dark(#d9582b,#b8461f);--crown2:light-dark(#e8a33a,#c98425);--pt:#d9582b;--win:#f5b942}
+:root[data-season=tavasz]{--season:light-dark(#3f8a4a,#8fd39a);--sky1:light-dark(#bfe3f0,#0f1d24);--sky2:light-dark(#f3f9ec,#20343a);--far:light-dark(#b5d6a1,#28452f);--mid:light-dark(#8cc47a,#335a3a);--near:light-dark(#62a659,#3e6e3e);--trunk:light-dark(#5a4636,#1a120c);--crown:light-dark(#f6c1d0,#c9879a);--crown2:light-dark(#fde6ec,#e3b3c1);--pt:#f6c1d0;--win:#f5b942}
+:root[data-season=nyar]{--season:light-dark(#c8102e,#ff5468);--sky1:light-dark(#7cc2ee,#0b1a2e);--sky2:light-dark(#e3f3fb,#1d3550);--far:light-dark(#9cc58a,#25402c);--mid:light-dark(#7fb26a,#2f5531);--near:light-dark(#e3b443,#7a6424);--trunk:light-dark(#4a3424,#140c07);--crown:light-dark(#2f7a3e,#1f5a2c);--crown2:light-dark(#3f9a50,#2b7a3c);--pt:#c8102e;--win:#f5b942}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 Jost,system-ui,sans-serif;margin:0;overflow-x:clip}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(5vw,16px,env(safe-area-inset-left,0px));padding-right:max(5vw,16px,env(safe-area-inset-right,0px))}
+header{border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
+body::before{content:"";position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:6}
+.hd{display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding-block:12px}
+.logo{font:900 26px/1 "Cormorant Garamond",serif;letter-spacing:-.02em;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px}
+.logo i{width:10px;height:22px;background:var(--red);display:inline-block;clip-path:polygon(0 0,100% 0,100% 100%,50% 78%,0 100%)}
+nav{display:flex;gap:4px;flex-wrap:wrap;flex:1}
+nav a{padding:8px 12px;border-radius:8px;color:var(--ink);text-decoration:none;font-weight:600;font-size:15px}
+nav a:hover{background:var(--tint)}
+nav a.on{background:var(--ink);color:var(--bg)}
+.cta{background:var(--red);color:#fff;border:0;border-radius:8px;padding:10px 16px;font:600 15px Jost,sans-serif;cursor:pointer;text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
+.cta:hover{filter:brightness(1.08)}
+.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+h1,h2,h3{font-family:"Cormorant Garamond",serif;letter-spacing:-.02em;line-height:1.05;margin:0}
+h1{font-size:clamp(34px,5vw,52px);font-weight:900}
+h2{font-size:28px;font-weight:700;margin-bottom:14px}
+h3{font-size:20px;font-weight:700}
+.muted{color:var(--soft)}
+.scene{position:relative;height:clamp(330px,34vw,420px);overflow:hidden;background:var(--sky2)}
+.scene>svg{position:absolute;inset:0;width:100%;height:100%}
+.scene .wrap{position:relative;padding-top:30px}
+.pt{animation:fall var(--d) linear infinite;animation-delay:var(--dl)}
+@keyframes fall{from{transform:translate(0,-60px) rotate(0deg)}to{transform:translate(60px,760px) rotate(240deg)}}
+@media(prefers-reduced-motion:reduce){.pt{animation:none}}
+.seas{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:14px}
+.seas button{border:1px solid color-mix(in srgb,var(--ink) 25%,transparent);background:color-mix(in srgb,var(--bg) 70%,transparent);color:var(--ink);border-radius:999px;padding:6px 12px;font:600 14px Jost,sans-serif;cursor:pointer;min-height:36px}
+.seas button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.hero{position:relative;padding-bottom:40px}
+.hgrid{position:relative;margin-top:-120px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:32px;align-items:start}
+.lead{max-width:34em;margin:10px 0 22px;font-size:17px}
+.book{background:var(--page);border-radius:4px;padding:44px clamp(22px,5vw,64px) 36px;box-shadow:0 1px 0 var(--line),0 18px 40px -24px rgba(60,0,10,.5);position:relative}
+.book::after{content:"";position:absolute;top:-6px;right:44px;width:22px;height:96px;background:var(--season);clip-path:polygon(0 0,100% 0,100% 100%,50% 82%,0 100%)}
+.kicker{font-size:14px;color:var(--season);font-weight:600;margin-bottom:8px}
+.verse{font:400 clamp(18px,2.1vw,22px)/1.7 "EB Garamond",serif;white-space:pre-line;margin:22px 0 18px}
+.byline{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;border-top:1px solid var(--line);padding-top:14px;font-size:15px}
+.byline a{color:var(--ink);font-weight:600}
+.side{display:grid;gap:16px;align-content:start}
+.panel{background:var(--page);border-radius:4px;padding:20px;border:1px solid var(--line)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--page);color:var(--ink);border-radius:999px;padding:8px 14px;font:600 14px Jost,sans-serif;cursor:pointer;text-decoration:none;min-height:40px;display:inline-flex;align-items:center;gap:6px}
+.chip:hover,.chip.on{border-color:var(--red);color:var(--red)}
+.chip b{font-weight:400;color:var(--soft)}
+.plist{list-style:none;margin:0;padding:0}
+.plist li{border-top:1px solid var(--line)}
+.plist li:first-child{border-top:0}
+.plist a{display:flex;justify-content:space-between;gap:10px;padding:10px 0;color:var(--ink);text-decoration:none}
+.plist a:hover span:first-child{color:var(--red)}
+.yrs{color:var(--soft);font-size:14px;white-space:nowrap}
+main section{padding-block:32px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{background:var(--page);border:1px solid var(--line);border-radius:4px;padding:20px;display:flex;flex-direction:column;gap:10px;cursor:pointer;text-align:left;color:var(--ink);font:inherit}
+.card:hover{border-color:var(--red)}
+.card .ex{font:400 16px/1.6 "EB Garamond",serif;white-space:pre-line;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.meta{display:flex;justify-content:space-between;gap:8px;font-size:14px;color:var(--soft);margin-top:auto;flex-wrap:wrap}
+.vote{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--page);color:var(--ink);border-radius:8px;padding:6px 12px;font:600 14px Jost,sans-serif;cursor:pointer;min-height:36px}
+.vote.on{background:var(--red);border-color:var(--red);color:#fff}
+.reader{max-width:760px;margin:0 auto}
+.back{background:none;border:0;color:var(--soft);font:600 15px Jost,sans-serif;cursor:pointer;padding:8px 0;margin-bottom:8px}
+form{display:grid;gap:16px;max-width:760px}
+label{font-weight:600;display:grid;gap:6px}
+input[type=text],textarea,select{font:16px/1.5 Jost,sans-serif;padding:12px;border:1px solid var(--soft);border-radius:6px;background:var(--page);color:var(--ink);width:100%}
+textarea{font-family:"EB Garamond",serif;min-height:220px;resize:vertical}
+.check{display:flex;gap:8px;align-items:center;font-weight:400}
+.ok{background:color-mix(in srgb,var(--green) 14%,var(--page));border:1px solid var(--green);color:var(--ink);padding:12px 14px;border-radius:6px}
+.ev{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:18px;align-items:center;border-top:1px solid var(--line);padding-block:18px}
+.date{font:900 40px/1 "Cormorant Garamond",serif;color:var(--red);text-align:center;min-width:64px}
+.date small{display:block;font:600 13px Jost,sans-serif;color:var(--soft);margin-top:4px}
+.phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;counter-reset:p}
+.ph{border-top:6px solid var(--red);background:var(--page);border-left:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px;border-radius:0 0 4px 4px}
+.ph:nth-child(2){border-top-color:var(--wheat)}.ph:nth-child(3){border-top-color:var(--green)}.ph:nth-child(4){border-top-color:var(--soft)}
+.ph ul{padding-left:18px;margin:10px 0 0}
+.ph li{margin-bottom:4px}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;color:var(--soft)}
+.note{font-size:13px;color:var(--soft);padding-block:24px;border-top:1px solid var(--line)}
+@media(max-width:860px){.hgrid{grid-template-columns:minmax(0,1fr);margin-top:-90px}}
+.dnav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.dnav button,.mini{border:1px solid var(--line);background:var(--page);color:var(--ink);border-radius:8px;min-width:40px;min-height:40px;font:600 15px Jost,sans-serif;cursor:pointer;padding:6px 10px}
+.dnav button:hover,.mini:hover{border-color:var(--season)}
+.dlabel{font-size:14px;color:var(--season);font-weight:600;text-align:center}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.cal .wd{font-size:13px;color:var(--soft);font-weight:600;padding:4px}
+.day{border:1px solid var(--line);background:var(--page);border-radius:4px;padding:8px;min-height:96px;cursor:pointer;text-align:left;color:var(--ink);font:inherit;display:flex;flex-direction:column;gap:4px}
+.day:hover{border-color:var(--season)}
+.day b{font:700 20px/1 "Cormorant Garamond",serif}
+.day span{font:400 14px/1.3 "EB Garamond",serif;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.day small{font-size:13px;color:var(--soft)}
+.day.today{border:2px solid var(--season)}
+.day.past{opacity:.7}
+.coll{border-top:1px solid var(--line);padding-block:22px}
+.crow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-top:1px dashed var(--line)}
+.crow a{color:var(--ink);font-weight:600}
+#dlg[hidden]{display:none}
+#dlg{position:fixed;inset:0;background:rgba(10,8,12,.45);z-index:20;display:grid;place-items:center;padding:16px}
+.dbox{background:var(--page);color:var(--ink);border-radius:8px;padding:22px;width:min(440px,100%);display:grid;gap:12px;max-height:90vh;overflow:auto}
+.dbox .row{display:flex;gap:8px}
+.dbox input[type=text]{padding:10px;width:auto;flex:1}
+.dbox .row .cta{flex-shrink:0}
+.ckl label{display:flex;gap:10px;align-items:center;font-weight:400;padding:8px 0;border-top:1px solid var(--line)}
+.toast{font-size:14px;color:var(--green);font-weight:600;min-height:20px}
+@media(max-width:600px){.scene{height:auto;padding-bottom:130px}.book::after{height:40px}.cal{grid-template-columns:minmax(0,1fr)}.cal .wd,.cal .pad{display:none}.day{min-height:0;flex-direction:row;align-items:baseline;gap:12px}.day b{min-width:2ch}}
+@media(max-width:600px){nav{order:3;flex-basis:100%;overflow-x:auto;flex-wrap:nowrap}nav a{white-space:nowrap;flex-shrink:0}.ev{grid-template-columns:auto minmax(0,1fr)}.ev .cta{grid-column:1/-1}table{font-size:13px}th,td{padding:6px 4px}}
+/* LÁGY, ELEGÁNS RÉTEG: fotó + köd, kerek formák, finom árnyékok, könnyed betűk */
+:root{--bg:light-dark(#f5f6f4,#121514);--ink:light-dark(#27302d,#e9ece9);--soft:light-dark(#6c7470,#a3aca7);--line:light-dark(#e3e6e2,#2a302d);--page:light-dark(rgba(255,255,255,.86),rgba(30,35,33,.86));--tint:light-dark(#eceeeb,#2b322f);--red:light-dark(#4d6b5f,#9cc2b2);--btn:light-dark(#3f5a50,#9cc2b2);--btnink:light-dark(#ffffff,#10201a)}
+:root,:root[data-season=tel]{--season:light-dark(#5b7487,#a9c3d6)}
+:root[data-season=osz]{--season:light-dark(#9a6a45,#d9ad86)}
+:root[data-season=tavasz]{--season:light-dark(#5f8460,#a8cfa9)}
+:root[data-season=nyar]{--season:light-dark(#4f7a52,#a3d2a6)}
+body{font:17px/1.65 Jost,system-ui,sans-serif;letter-spacing:.005em}
+h1,h2,h3{font-family:"Cormorant Garamond",serif;font-weight:600;letter-spacing:-.005em;line-height:1.08}
+h1{font-size:clamp(40px,5.4vw,64px);font-weight:500}
+h2{font-size:32px;font-weight:500}
+h3{font-size:23px}
+.logo{font:600 30px/1 "Cormorant Garamond",serif;letter-spacing:0}
+.logo i{width:9px;height:9px;border-radius:50%;clip-path:none;background:var(--season)}
+header{background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);border-bottom:0}
+nav a{border-radius:999px;font-weight:400;padding:8px 14px}
+nav a.on{background:var(--tint);color:var(--ink)}
+.cta{background:var(--btn);color:var(--btnink);border-radius:999px;font-weight:500;padding:10px 20px}
+.ghost{background:transparent;color:var(--ink);border:1px solid color-mix(in srgb,var(--ink) 20%,transparent)}
+.scene{height:clamp(420px,44vw,560px);background:var(--bg)}
+.scene .ph-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%}
+.veil{position:absolute;inset:0;background:linear-gradient(90deg,color-mix(in srgb,var(--bg) 90%,transparent) 0%,color-mix(in srgb,var(--bg) 70%,transparent) 45%,transparent 85%),linear-gradient(0deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 40%,transparent) 30%,transparent 55%)}
+.scene .wrap{padding-top:clamp(40px,6vw,80px)}
+.credit{position:absolute;right:max(5vw,16px);bottom:170px;font-size:13px;color:var(--ink);text-decoration:none;background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(6px);padding:4px 12px;border-radius:999px}
+.credit:hover{text-decoration:underline}
+.lead{font-size:19px;max-width:30em}
+.seas button{border:0;background:color-mix(in srgb,var(--bg) 65%,transparent);backdrop-filter:blur(6px);font-weight:400}
+.seas button.on{background:var(--ink);color:var(--bg)}
+.hgrid{margin-top:-150px;gap:28px}
+.book{border-radius:28px;background:var(--page);backdrop-filter:blur(14px);box-shadow:0 30px 60px -30px rgba(30,45,40,.35);padding:40px clamp(24px,5vw,64px) 32px}
+.book::after{display:none}
+.kicker,.dlabel{color:var(--season);font-weight:500;letter-spacing:.01em}
+.verse{font:400 clamp(20px,2.3vw,25px)/1.75 "EB Garamond",serif}
+.byline{border-top:0;padding-top:6px}
+.byline a,.crow a{text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--season) 50%,transparent)}
+.panel{border:0;border-radius:24px;background:var(--page);backdrop-filter:blur(14px);box-shadow:0 20px 50px -30px rgba(30,45,40,.3);padding:24px}
+.chip{border:0;background:var(--tint);font-weight:400}
+.chip:hover,.chip.on{background:color-mix(in srgb,var(--season) 18%,var(--tint));color:var(--ink)}
+.plist li{border-top:1px solid var(--line)}
+.grid{gap:22px}
+.card{border:0;border-radius:24px;background:light-dark(#ffffff,#1b201e);box-shadow:0 1px 2px rgba(30,45,40,.05),0 18px 40px -28px rgba(30,45,40,.35);padding:26px;transition:transform .3s ease,box-shadow .3s ease}
+.card:hover{transform:translateY(-3px);box-shadow:0 1px 2px rgba(30,45,40,.05),0 26px 50px -28px rgba(30,45,40,.45)}
+.card .ex{font:italic 400 17px/1.65 "EB Garamond",serif;color:color-mix(in srgb,var(--ink) 85%,var(--bg))}
+.vote,.mini,.dnav button{border:0;background:var(--tint);border-radius:999px;font-weight:500}
+.vote.on{background:var(--btn);color:var(--btnink)}
+.mini:hover,.dnav button:hover{background:color-mix(in srgb,var(--season) 20%,var(--tint))}
+.day{border:0;border-radius:18px;background:light-dark(#ffffff,#1b201e);box-shadow:0 10px 30px -24px rgba(30,45,40,.4)}
+.day b{font:500 24px/1 "Cormorant Garamond",serif}
+.day span{font:italic 400 15px/1.35 "EB Garamond",serif}
+.day.today{border:0;box-shadow:0 0 0 2px var(--season),0 10px 30px -24px rgba(30,45,40,.4)}
+.day.past{opacity:.55}
+.ph{border:0;border-radius:24px;background:light-dark(#ffffff,#1b201e);box-shadow:0 18px 40px -28px rgba(30,45,40,.35);border-top:0;position:relative;overflow:hidden;padding:24px}
+.ph::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--season)}
+.ev{border-top:1px solid var(--line)}
+.date{font:500 46px/1 "Cormorant Garamond",serif;color:var(--season)}
+.coll{border-top:0;background:light-dark(#ffffff,#1b201e);border-radius:24px;padding:24px;margin-top:18px;box-shadow:0 18px 40px -28px rgba(30,45,40,.35)}
+.crow{border-top:1px solid var(--line)}
+.dbox{border-radius:24px}
+input[type=text],textarea,select{border-radius:14px;border:1px solid var(--line);background:light-dark(#fff,#1b201e)}
+.ok{border-radius:14px}
+.note{border-top:0}
+@media(prefers-reduced-motion:reduce){.card{transition:none}}
+@media(max-width:860px){.hgrid{margin-top:-120px}.credit{bottom:130px}}
+@media(max-width:600px){.scene{height:auto;padding-bottom:150px;min-height:440px}.credit{bottom:128px;font-size:12px}.veil{background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 75%,transparent) 0%,color-mix(in srgb,var(--bg) 45%,transparent) 45%,var(--bg) 100%)}}
+/* ÁTTETSZŐ RÉTEG */
+.scene .ph-img,.veil{-webkit-mask-image:linear-gradient(180deg,#000 45%,transparent 100%);mask-image:linear-gradient(180deg,#000 45%,transparent 100%)}
+nav{gap:0}
+nav a{padding:8px 10px;font-size:15px}
+.hd{gap:14px}
+.bgph{position:fixed;inset:0;z-index:-1;background-size:cover;background-position:center;opacity:.32;filter:blur(3px) saturate(.8);transform:scale(1.03)}
+.veil{background:linear-gradient(90deg,color-mix(in srgb,var(--bg) 90%,transparent) 0%,color-mix(in srgb,var(--bg) 70%,transparent) 45%,transparent 85%),linear-gradient(0deg,color-mix(in srgb,var(--bg) 60%,transparent) 0%,transparent 45%)}
+.scene{background:transparent}
+.card,.day,.coll,.ph,.panel,.book{background:light-dark(rgba(255,255,255,.55),rgba(24,30,28,.55));backdrop-filter:blur(16px) saturate(1.1);-webkit-backdrop-filter:blur(16px) saturate(1.1);border:1px solid light-dark(rgba(255,255,255,.7),rgba(255,255,255,.08))}
+.book{background:light-dark(rgba(255,255,255,.68),rgba(24,30,28,.66))}
+.card:hover{background:light-dark(rgba(255,255,255,.72),rgba(30,37,34,.7))}
+.q{width:17px;height:17px;flex-shrink:0}
+.vote.ink{gap:6px}
+.vote.ink.on{background:light-dark(#1f2b45,#c9d6f0);color:light-dark(#fff,#111827)}
+.kicker .q{vertical-align:-3px;margin-right:4px}
+.top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:22px;align-items:start}
+.top .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.feat{padding:34px}
+.feat h2{font-size:38px;margin:4px 0 0}
+.feat .verse{margin:14px 0 10px}
+.badge{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--season);color:#fff;font-size:12px;margin-left:4px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:640px}
+.stats div{background:light-dark(rgba(255,255,255,.55),rgba(24,30,28,.55));backdrop-filter:blur(14px);border-radius:20px;padding:16px 20px;border:1px solid light-dark(rgba(255,255,255,.7),rgba(255,255,255,.08))}
+.stats b{display:block;font:500 40px/1 "Cormorant Garamond",serif;color:var(--season)}
+.stats span{font-size:14px;color:var(--soft)}
+.rlist{display:grid;gap:12px}
+.rx{display:flex;justify-content:space-between;gap:16px;align-items:center;background:light-dark(rgba(255,255,255,.55),rgba(24,30,28,.55));backdrop-filter:blur(14px);border-radius:20px;padding:16px 22px;border:1px solid light-dark(rgba(255,255,255,.7),rgba(255,255,255,.08))}
+.rx a{color:var(--ink);font:600 21px "Cormorant Garamond",serif;text-decoration:none}
+.qt{font:italic 17px/1.5 "EB Garamond",serif;margin:6px 0 0}
+.qt span{font:400 14px Jost,sans-serif;color:var(--soft);font-style:normal}
+.rnum{display:grid;justify-items:end;gap:2px;white-space:nowrap;font-size:14px}
+.inkc{display:inline-flex;gap:6px;align-items:center;font-weight:500;font-size:16px}
+@media(max-width:600px){.credit{top:8px;bottom:auto;right:12px;font-size:11px}}
+@media(max-width:900px){.top{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.top .grid{grid-template-columns:minmax(0,1fr)}.rx{flex-direction:column;align-items:flex-start}.rnum{justify-items:start}.stats b{font-size:32px}}
+.part{font-size:14px;color:var(--soft);background:var(--tint);border-radius:12px;padding:8px 12px;margin:12px 0 0}
+.comments{margin-top:28px;display:grid;gap:14px}
+.comments h2{margin:0}
+.cmt{display:flex;gap:14px;align-items:flex-start;background:light-dark(rgba(255,255,255,.55),rgba(24,30,28,.55));backdrop-filter:blur(14px);border:1px solid light-dark(rgba(255,255,255,.7),rgba(255,255,255,.08));border-radius:20px;padding:16px 20px}
+.cmt p{margin:4px 0 0;font:italic 18px/1.55 "EB Garamond",serif}
+.cn{font-size:14px;font-weight:500}
+.av{flex:0 0 38px;height:38px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--season) 25%,var(--tint));font:500 18px "Cormorant Garamond",serif}
+#cform{gap:10px;max-width:none}
+.bio{background:light-dark(rgba(255,255,255,.55),rgba(24,30,28,.55));backdrop-filter:blur(14px);border:1px solid light-dark(rgba(255,255,255,.7),rgba(255,255,255,.08));border-radius:24px;padding:22px 26px;margin-bottom:22px;max-width:62em}
+.bio p{margin:0;font:400 20px/1.6 "EB Garamond",serif}
+.bsn{margin:4px 0 0;font:400 16px/1.5 "EB Garamond",serif;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card .yrs{white-space:normal}
+/* VIDÁM ÉVSZAKOK */
+:root[data-season=osz]{--season:light-dark(#d9480f,#ff8f4d);--btn:light-dark(#c2410c,#ff9a5a);--btnink:light-dark(#fff,#2a1205);--bg:light-dark(#fdf7ee,#17110c);--tint:light-dark(#fbe9d4,#33241a);--line:light-dark(#f1dcc4,#3a2a1e)}
+:root[data-season=osz] .veil{background:linear-gradient(90deg,color-mix(in srgb,var(--bg) 86%,transparent) 0%,color-mix(in srgb,var(--bg) 58%,transparent) 50%,transparent 80%),linear-gradient(0deg,color-mix(in srgb,var(--bg) 50%,transparent) 0%,transparent 40%)}
+:root[data-season=osz] .ph-img{filter:saturate(1.25) contrast(1.06)}
+:root[data-season=osz] .bgph{opacity:.42;filter:blur(3px) saturate(1.40)}
+:root[data-season=osz] .vote.ink.on{background:var(--btn);color:var(--btnink)}
+:root[data-season=osz] .chip:hover,:root[data-season=osz] .chip.on{background:color-mix(in srgb,var(--season) 25%,var(--tint))}
+:root[data-season=tel]{--season:light-dark(#1f7ac8,#7cc4ff);--btn:light-dark(#1c6fb8,#7cc4ff);--btnink:light-dark(#fff,#06182a);--bg:light-dark(#f5faff,#0e1622);--tint:light-dark(#e1effc,#1b2a3c);--line:light-dark(#cfe2f5,#26384d)}
+:root[data-season=tel] .veil{background:linear-gradient(90deg,color-mix(in srgb,var(--bg) 86%,transparent) 0%,color-mix(in srgb,var(--bg) 58%,transparent) 50%,transparent 80%),linear-gradient(0deg,color-mix(in srgb,var(--bg) 50%,transparent) 0%,transparent 40%)}
+:root[data-season=tel] .ph-img{filter:saturate(1.2) contrast(1.06)}
+:root[data-season=tel] .bgph{opacity:.42;filter:blur(3px) saturate(1.35)}
+:root[data-season=tel] .vote.ink.on{background:var(--btn);color:var(--btnink)}
+:root[data-season=tel] .chip:hover,:root[data-season=tel] .chip.on{background:color-mix(in srgb,var(--season) 25%,var(--tint))}
+:root[data-season=tavasz]{--season:light-dark(#d6336c,#ff8fb4);--btn:light-dark(#2f9e44,#7ee08f);--btnink:light-dark(#fff,#07210e);--bg:light-dark(#fff8fa,#1a1216);--tint:light-dark(#fde4ec,#36212a);--line:light-dark(#f6d3df,#3f2a33)}
+:root[data-season=tavasz] .veil{background:linear-gradient(90deg,color-mix(in srgb,var(--bg) 86%,transparent) 0%,color-mix(in srgb,var(--bg) 58%,transparent) 50%,transparent 80%),linear-gradient(0deg,color-mix(in srgb,var(--bg) 50%,transparent) 0%,transparent 40%)}
+:root[data-season=tavasz] .ph-img{filter:saturate(1.2) contrast(1.06)}
+:root[data-season=tavasz] .bgph{opacity:.42;filter:blur(3px) saturate(1.35)}
+:root[data-season=tavasz] .vote.ink.on{background:var(--btn);color:var(--btnink)}
+:root[data-season=tavasz] .chip:hover,:root[data-season=tavasz] .chip.on{background:color-mix(in srgb,var(--season) 25%,var(--tint))}
+/* MAI NAP, CHAT */
+.today{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px 16px;background:var(--page);backdrop-filter:blur(12px);border-radius:999px;padding:8px 18px;font-size:15px;margin-bottom:6px;box-shadow:0 10px 30px -20px rgba(0,0,0,.35)}
+.today .tdate{font-weight:500}.today .tnd b{color:var(--season)}.today .flw{color:var(--season)}.today .tnext{color:var(--soft);font-size:14px}
+.greet{margin:4px 0 8px 4px;font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:600;font-size:21px;color:var(--season)}
+.chat{display:grid;grid-template-columns:280px minmax(0,1fr);gap:18px;align-items:start}
+.clist{padding:14px}.clist h3{font-size:18px;margin:16px 6px 6px}.clist select{width:100%;margin-top:6px}
+.conv{display:flex;gap:12px;align-items:center;padding:10px;border-radius:16px;color:inherit;text-decoration:none}.conv:hover,.conv.on{background:color-mix(in srgb,var(--season) 14%,transparent)}
+.conv>span:last-child{min-width:0;display:grid}.conv small{color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px}
+.chat .av{position:relative;flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--season) 22%,var(--tint));color:var(--ink);font-weight:600}
+.av.lob{background:var(--season);color:var(--btnink)}.av .dot{position:absolute;right:0;bottom:0;width:10px;height:10px;border-radius:50%;background:#37b24d;border:2px solid var(--bg)}
+.cmain{display:flex;flex-direction:column;padding:0;overflow:hidden}.chead{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;padding:16px 22px;border-bottom:1px solid var(--line)}.chead .muted{font-size:14px}
+.msgs{height:min(56vh,520px);overflow-y:auto;padding:18px 22px;display:flex;flex-direction:column;gap:12px}
+.msg{display:flex;gap:10px;align-items:flex-end;max-width:80%}.msg.me{align-self:flex-end}
+.bub{background:var(--tint);border-radius:18px 18px 18px 6px;padding:8px 14px}.msg.me .bub{background:var(--btn);color:var(--btnink);border-radius:18px 18px 6px 18px}
+.bub .cn{font-size:13px;font-weight:600;color:var(--season)}.bub p{margin:2px 0}.bub time{font-size:12px;opacity:.65}
+#chatform{display:flex;gap:10px;padding:14px 22px;border-top:1px solid var(--line)}#chatform input{flex:1;min-width:0}
+.demo{font-size:13px;padding:0 22px 14px;margin:0}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media(max-width:760px){.chat.indm .clist{display:none}.chat{grid-template-columns:minmax(0,1fr)}.msg{max-width:92%}.msgs{height:60vh}}
+/* FOLYÓIRAT RÉTEG: meleg papír, könyves tipográfia, csempék nélkül */
+:root[data-season]{--bg:light-dark(#faf5ec,#1b1714);--ink:light-dark(#2e2621,#efe6da);--soft:light-dark(#7d6c60,#b6a796);--paper:light-dark(#fffdf8,#231d19);--line:color-mix(in srgb,var(--season) 16%,light-dark(#e6d9c5,#3b312a));--tint:color-mix(in srgb,var(--season) 10%,var(--bg));--page:var(--paper)}
+body{background:var(--bg) radial-gradient(ellipse at 20% 0%,light-dark(rgba(255,240,215,.55),rgba(60,40,25,.25)),transparent 60%) fixed}
+.bgph{display:none}
+header{background:color-mix(in srgb,var(--bg) 90%,transparent)}
+.credit{display:none}
+.ph-img{filter:saturate(1.1) sepia(.06)}
+/* napi vers: nyitott könyvlap */
+.book{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;border:0;border-radius:4px 10px 10px 4px;box-shadow:inset 14px 0 18px -14px light-dark(rgba(120,80,40,.25),rgba(0,0,0,.6)),0 1px 0 var(--line),0 30px 60px -34px light-dark(rgba(90,55,20,.5),rgba(0,0,0,.8))}
+.book .dlabel,.kicker{font:500 12px Jost,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--season)}
+.book .dnav button{background:none;border:1px solid var(--line)}
+.book h2{font-style:italic}
+.book .verse::first-letter,.feat .verse::first-letter{float:left;font:600 3.6em/.8 "Cormorant Garamond",serif;color:var(--season);margin:.06em .1em 0 0}
+.book .verse{position:relative}
+.book .byline{border-top:1px solid var(--line);padding-top:14px}
+/* oldalsáv: egyetlen tartalomjegyzék-lap */
+.side{background:var(--paper);border-radius:10px;padding:26px 28px;gap:0;box-shadow:0 1px 0 var(--line),0 30px 60px -38px light-dark(rgba(90,55,20,.45),rgba(0,0,0,.8))}
+.side .panel{background:none;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;border-radius:0;padding:18px 0;border-top:1px solid var(--line)}
+.side .panel:first-child{border-top:0;padding-top:0}
+.panel h3,.side h3{font:500 12px Jost,sans-serif !important;letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
+.chips{gap:2px 0}
+.chip,:root[data-season] .chip{background:none;border:0;border-radius:0;min-height:0;padding:2px 0;font:italic 400 19px "EB Garamond",serif;color:var(--ink)}
+.chip b{font:500 12px Jost,sans-serif;color:var(--soft);vertical-align:super}
+.chip:not(:last-child)::after{content:"·";margin:0 10px;color:var(--season);font-style:normal}
+.chip:hover,:root[data-season] .chip:hover,:root[data-season] .chip.on{background:none;color:var(--season)}
+/* versek: antológia-hasábok vonallal, dobozok nélkül */
+.grid{display:block;columns:3 270px;column-gap:56px;column-rule:1px solid var(--line)}
+.card,:root[data-season] .card{background:none;backdrop-filter:none;-webkit-backdrop-filter:none;border:0;border-radius:0;box-shadow:none;padding:6px 0 26px;margin-bottom:22px;break-inside:avoid;border-bottom:1px solid var(--line);transition:color .2s}
+.card:hover{transform:none;box-shadow:none}
+.card h3{font:500 26px/1.15 "Cormorant Garamond",serif}
+.card h3::before{content:"❦";display:block;font-size:16px;color:var(--season);margin-bottom:6px}
+.card:hover h3{color:var(--season)}
+.card .ex{font-size:18px}
+.card .meta{flex-wrap:wrap;gap:8px 12px}
+.card .meta>span:first-child,.feat .meta>span:first-child,.byline>a,.byline>span:first-child{font-variant:small-caps;letter-spacing:.06em;font-size:15px}
+.vote,:root[data-season] .vote,:root[data-season] .vote.ink.on{background:none;border:0;border-radius:0;padding:4px 2px;min-height:0;color:var(--soft);font:500 14px Jost,sans-serif;box-shadow:none}
+.vote:hover{color:var(--season)}
+.vote.on,:root[data-season] .vote.on,:root[data-season] .vote.ink.on{background:none;color:var(--season)}
+.book .vote{color:var(--soft)}
+/* a hét verse és rangsor */
+.top{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:56px}
+.feat,:root[data-season] .feat{border:0;padding:8px 0 0;margin:0}
+.feat h3::before{display:none}
+.feat h2{font:italic 500 46px/1.05 "Cormorant Garamond",serif}
+.feat .verse{font-size:21px}
+.rank{list-style:none;margin:0;padding:0;border-left:1px solid var(--line);padding-left:36px}
+.rank li{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.rank li:last-child{border-bottom:0}
+.rank .rn{font:italic 500 24px "Cormorant Garamond",serif;color:var(--season)}
+.rank b{display:block;font:500 23px/1.2 "Cormorant Garamond",serif}
+.rank li:hover b{color:var(--season)}
+.rank i{display:block;font:italic 17px "EB Garamond",serif;color:var(--soft)}
+.rank small{font-variant:small-caps;letter-spacing:.06em;font-size:14px}
+/* címsorok díszjellel */
+section.wrap>h2,section.wrap>div>h2{position:relative}
+section.wrap>h1{font-style:italic}
+section.wrap>h1::after{content:"❦";display:block;font-size:20px;font-style:normal;color:var(--season);margin-top:4px}
+/* többi felület: papírlapok, nem üveg */
+.panel,.day,.coll,.ph,:root[data-season] .panel{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;border:1px solid var(--line);box-shadow:none;border-radius:10px}
+.day:hover{border-color:var(--season)}
+.photocred{font-size:13px;color:var(--soft);padding-bottom:36px}
+.photocred a{color:inherit}
+.photocred details{display:inline}
+.photocred summary{display:inline;cursor:pointer;text-decoration:underline dotted}
+.photocred ul{margin:8px 0 0;padding-left:18px}
+@media(max-width:900px){.top{grid-template-columns:minmax(0,1fr);gap:28px}.rank{border-left:0;padding-left:0;border-top:1px solid var(--line)}}
+@media(max-width:600px){.rank li{grid-template-columns:34px minmax(0,1fr)}.rank .rv{grid-column:2}.feat h2{font-size:36px}.side{padding:22px}}
+.side .panel,:root[data-season] .side .panel{background:none;border:0;border-top:1px solid var(--line);border-radius:0;padding:18px 0}
+.side .panel:first-child,:root[data-season] .side .panel:first-child{border-top:0;padding-top:0}
+/* TIPOGRÁFIA ÉS TINTASZÍNEK */
+:root[data-season]{--ink:light-dark(#33261f,#ece1d1);--head:light-dark(#22170f,#f6ecdd);--soft:light-dark(#86705f,#b9a690);--red:var(--season);--btnink:light-dark(#fffaf2,#1b1410)}
+:root[data-season=tel]{--season:light-dark(#2f5579,#a3c6e6);--btn:light-dark(#2f5579,#a3c6e6)}
+:root[data-season=osz]{--season:light-dark(#ad4318,#f2a873);--btn:light-dark(#ad4318,#f2a873)}
+:root[data-season=tavasz]{--season:light-dark(#a8345f,#f0a6c3);--btn:light-dark(#a8345f,#f0a6c3)}
+:root[data-season=nyar]{--season:light-dark(#3d6f38,#a8d49b);--btn:light-dark(#3d6f38,#a8d49b)}
+body{font-weight:350;color:var(--ink);text-rendering:optimizeLegibility;font-feature-settings:"kern","liga"}
+h1,h2,h3,.logo{color:var(--head)}
+h1{font-family:"Cormorant Garamond",serif;font-weight:500;letter-spacing:-.012em;line-height:1.02}
+.hero h1{font-weight:500;letter-spacing:-.018em}
+h2{font-family:"Cormorant Garamond",serif;font-weight:500;letter-spacing:-.005em}
+.lead{font:italic 400 clamp(19px,2vw,22px)/1.5 "EB Garamond",serif;color:var(--ink)}
+.verse{color:var(--ink);font-feature-settings:"kern","liga","onum";hyphens:manual}
+.card .ex{color:color-mix(in srgb,var(--ink) 82%,var(--bg))}
+nav a{font-weight:400;color:color-mix(in srgb,var(--ink) 85%,var(--bg));letter-spacing:.01em}
+nav a.on,:root[data-season] nav a.on{background:none;color:var(--season);box-shadow:inset 0 -1px 0 var(--season);border-radius:0}
+nav a:hover{color:var(--season)}
+.logo{font-weight:600;font-style:italic}
+.logo i{background:var(--season)}
+.cta{font-weight:500;letter-spacing:.02em}
+a{text-decoration-thickness:1px;text-underline-offset:3px}
+.muted{color:var(--soft)}
+/* címkék: könyves kiskapitális */
+.book .dlabel,.kicker,.panel h3,.side h3,:root[data-season] .panel h3{font:500 15px "EB Garamond",serif !important;font-variant:all-small-caps;letter-spacing:.14em;text-transform:none;color:var(--season)}
+.panel h3,.side h3{color:var(--soft) !important}
+.card .meta>span:first-child,.feat .meta>span:first-child,.byline>a,.byline>span:first-child,.rank small{font-family:"EB Garamond",serif;font-variant:all-small-caps;letter-spacing:.1em;font-size:16px;color:var(--soft)}
+.byline>a{color:var(--season)}
+.card h3,.rank b{color:var(--head)}
+.rank i{color:var(--soft)}
+.chip,:root[data-season] .chip{color:var(--ink)}
+.chip:not(:last-child)::after{color:color-mix(in srgb,var(--season) 60%,var(--bg))}
+.greet{color:var(--season);font-weight:500}
+.today .tdate{color:var(--head)}
+.book .verse::first-letter,.feat .verse::first-letter{font-weight:500;color:var(--season)}
+.card h3::before,section.wrap>h1::after{color:color-mix(in srgb,var(--season) 75%,var(--bg))}
+.note,.photocred{color:var(--soft)}
+.plist a span:first-child{font:400 19px "EB Garamond",serif;color:var(--head)}
+.plist .yrs{font-family:"EB Garamond",serif;font-feature-settings:"onum";font-size:16px}
+/* REGISZTRÁCIÓ, SZABÁLYZAT */
+form[hidden]{display:none !important}
+.foot-links{display:flex;gap:22px;flex-wrap:wrap;padding-bottom:10px}
+nav a{padding:8px 7px}
+.acct .ini{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:50%;background:color-mix(in srgb,var(--season) 18%,var(--paper));color:var(--season);font:500 19px "Cormorant Garamond",serif;position:relative}
+.acct.on::before{display:none !important}
+.acct.on .ini::after{content:"";position:absolute;right:0;bottom:1px;width:9px;height:9px;border-radius:50%;background:#37b24d;border:2px solid var(--bg)}
+.hacts{display:flex;align-items:center;gap:14px}
+.acct{color:var(--ink);text-decoration:none;font-size:15px;white-space:nowrap}
+.acct:hover{color:var(--season)}
+.acct.on::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:#37b24d;margin-right:7px;vertical-align:middle}
+.narrow{max-width:760px}
+.regf{display:grid;gap:18px;padding:30px}
+.regf label{display:grid;gap:6px;text-align:left;font:500 15px Jost,sans-serif;color:var(--head);border:0;padding:0}
+.regf small,.regf .opt{font-weight:350;color:var(--soft);font-size:13px}
+.regf legend{font:500 15px Jost,sans-serif;color:var(--head);margin-bottom:6px}
+.regf input[type=email],.regf input[type=password],.regf input[type=text],.regf select,.regf textarea{font:16px/1.5 Jost,sans-serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);width:100%;box-sizing:border-box}
+.regf input:focus,.regf select:focus,.regf textarea:focus{outline:2px solid var(--season);outline-offset:1px}
+.regf .two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.regf label.check{display:flex;gap:10px;align-items:flex-start;font-weight:350}
+.regf label.check input{margin-top:5px;accent-color:var(--season);flex:none}
+.regf .chip[aria-pressed=true]{color:var(--season);text-decoration:underline;text-underline-offset:4px}
+.err{color:light-dark(#b42318,#ff9b8f);font-size:15px}
+.err:empty{display:none}
+.terms-box{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0}
+.terms-box summary{cursor:pointer;color:var(--season);font-family:"EB Garamond",serif;font-size:18px}
+.terms-box[open]{max-height:420px;overflow:auto}
+.terms h3,.terms-box h3{font:500 22px "Cormorant Garamond",serif;margin:22px 0 6px;color:var(--head)}
+.terms p,.terms-box p{font:400 18px/1.65 "EB Garamond",serif;margin:0 0 10px;max-width:40em}
+.draft{background:color-mix(in srgb,var(--season) 10%,var(--paper));border-left:3px solid var(--season);padding:10px 14px;border-radius:0 8px 8px 0;font:italic 17px/1.5 "EB Garamond",serif !important}
+.gate{background:color-mix(in srgb,var(--season) 8%,var(--paper));border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:16px}
+.gate p{margin:0 0 10px}
+.prof dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 22px;margin:0}
+.prof dt{font-family:"EB Garamond",serif;font-variant:all-small-caps;letter-spacing:.1em;color:var(--soft)}
+.prof dd{margin:0}
+@media(max-width:600px){.regf{padding:20px}.regf .two{grid-template-columns:1fr}.hacts{gap:10px}.acct{font-size:14px}.prof dl{grid-template-columns:1fr}.prof dd{margin-bottom:6px}}
+/* PROFIL */
+.pav{width:40px;height:40px;border-radius:50%;object-fit:cover;flex:none}
+.pav.big{width:96px;height:96px;font-size:44px}
+.pav.ini{display:inline-grid;place-items:center;background:color-mix(in srgb,var(--season) 18%,var(--paper));color:var(--season);font-family:"Cormorant Garamond",serif;font-weight:500}
+img.ini{width:36px;height:36px;border-radius:50%;object-fit:cover;display:inline-block;vertical-align:middle}
+.phead{display:flex;gap:22px;align-items:center;margin-bottom:18px}
+.pbio{font:italic 20px/1.55 "EB Garamond",serif;max-width:36em;margin:0 0 22px}
+.picrow{display:flex;gap:20px;align-items:center}
+.filebtn{display:inline-flex !important;cursor:pointer;border:1px solid var(--line);border-radius:999px;padding:8px 16px;font:500 14px Jost,sans-serif;color:var(--head)}
+.filebtn:hover{border-color:var(--season);color:var(--season)}
+.filebtn input{position:absolute;width:1px;height:1px;opacity:0}
+.regf input[type=number]{font:16px/1.5 Jost,sans-serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);width:100%;box-sizing:border-box}
+@media(max-width:600px){.phead{gap:14px}.pav.big{width:72px;height:72px;font-size:34px}}
+/* VILÁGOS, DOBOZOK NÉLKÜL */
+.themebtn{background:none;border:0;cursor:pointer;font:inherit;color:var(--soft);padding:0;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.themebtn:hover{color:var(--season)}
+.bio{background:none !important;backdrop-filter:none !important;border:0 !important;border-radius:0 !important;box-shadow:none !important;padding:0 0 0 22px !important;border-left:2px solid var(--season) !important;font:400 19px/1.6 "EB Garamond",serif}
+:root[data-season]{--paper:var(--bg)}
+.scene{height:clamp(360px,36vw,470px)}
+.hgrid{margin-top:8px;gap:64px}
+@media(max-width:860px){.hgrid{margin-top:8px}}
+@media(max-width:600px){.scene{height:auto !important;padding-bottom:56px;min-height:0}}
+.book,.side,.panel,.coll,.ph,.cmt,.rx,.stats div,.gate,.regf,.cmain,.clist,:root[data-season] .panel,:root[data-season] .side .panel{background:none !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;box-shadow:none !important;border:0 !important;border-radius:0 !important}
+.book{padding:6px 0 0 !important}
+.side{padding:0 !important;border-left:1px solid var(--line) !important;padding-left:40px !important}
+.panel{padding:20px 0 !important;border-top:1px solid var(--line) !important}
+.side .panel:first-child{border-top:0 !important;padding-top:0 !important}
+.regf{padding:24px 0 0 !important;border-top:1px solid var(--line) !important}
+.coll{padding:24px 0 !important;border-top:1px solid var(--line) !important;margin-top:0 !important}
+.ph{padding:18px 0 !important;border-top:2px solid var(--season) !important}
+.cmt,.rx{padding:14px 0 !important;border-bottom:1px solid var(--line) !important}
+.stats div{padding:0 0 0 18px !important;border-left:2px solid var(--season) !important}
+.gate{padding:14px 0 14px 18px !important;border-left:3px solid var(--season) !important}
+.chat{gap:0}
+.clist{padding:0 24px 0 0 !important;border-right:1px solid var(--line) !important}
+.cmain{border-top:0 !important}
+.chead,#chatform{padding-left:24px;padding-right:0}
+.msgs{padding-left:24px;padding-right:0}
+.day,:root[data-season] .day{background:none !important;box-shadow:none !important;border:0 !important;border-top:1px solid var(--line) !important;border-radius:0 !important}
+.day.today{border-top:2px solid var(--season) !important;background:var(--tint) !important}
+.day:hover{background:var(--tint) !important}
+.reader .book{max-width:40em}
+@media(max-width:860px){.side{border-left:0 !important;padding-left:0 !important;border-top:1px solid var(--line) !important;padding-top:24px !important}}
+@media(max-width:760px){.clist{border-right:0 !important;padding:0 0 18px !important;border-bottom:1px solid var(--line) !important}.chead,#chatform,.msgs{padding-left:0}}
+/* VILÁGOSABB, LÉGIESEBB, ÁTÜTŐ HÁTTÉR */
+:root[data-season]{--bg:light-dark(#fefcf8,#1b1714);--tint:color-mix(in srgb,var(--season) 7%,var(--bg));--line:color-mix(in srgb,var(--season) 14%,light-dark(#ece3d5,#3b312a))}
+body{background:var(--bg)}
+.bgph{display:block !important;opacity:.2 !important;filter:blur(2px) saturate(1.3) brightness(1.2) !important;z-index:-1}
+:root[data-theme=dark] .bgph{opacity:.14 !important;filter:blur(3px) brightness(.8) !important}
+body{background:color-mix(in srgb,var(--bg) 100%,transparent)}
+main,#app{background:transparent}
+header{background:color-mix(in srgb,var(--bg) 78%,transparent);backdrop-filter:blur(10px)}
+.veil,:root[data-season] .veil{background:linear-gradient(90deg,color-mix(in srgb,var(--bg) 74%,transparent) 0%,color-mix(in srgb,var(--bg) 42%,transparent) 55%,transparent 82%),linear-gradient(0deg,var(--bg) 0%,transparent 30%) !important}
+:root[data-season] .ph-img{filter:saturate(1.2) brightness(1.05) contrast(1.03) !important}
+.today{background:color-mix(in srgb,var(--bg) 85%,transparent)}
+.greet,.hero h1,.lead{text-shadow:0 0 18px color-mix(in srgb,var(--bg) 90%,transparent),0 0 2px color-mix(in srgb,var(--bg) 70%,transparent)}
+@media(max-width:600px){.veil,:root[data-season] .veil{background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 55%,transparent) 0%,color-mix(in srgb,var(--bg) 45%,transparent) 60%,var(--bg) 100%) !important}}
+/* ÉLES VÁLTOZAT KIEGÉSZÍTÉSEI */
+a.card{color:var(--ink)}
+.loading{color:var(--soft);font:italic 18px "EB Garamond",serif;padding:24px 0}
+.linkbtn{background:none;border:0;padding:0;font:inherit;color:var(--soft);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.linkbtn:hover{color:var(--season)}
+.cmt .cn .linkbtn{font-size:13px;margin-left:8px}
+.prow{display:flex;gap:10px;align-items:center}
+.envwarn{max-width:640px;margin:60px auto;padding:0 16px;font:18px/1.6 "EB Garamond",serif}
+.envwarn code{font:14px ui-monospace,monospace;background:var(--tint);padding:2px 6px;border-radius:4px}
+.pubprof{display:flex;gap:18px;align-items:center;margin:0 0 18px}
+.danger{color:light-dark(#b42318,#ff9b8f) !important}
+.mini.danger{border-color:currentColor}
+.toc{margin-top:22px}
+.toc h3{font:600 15px Jost,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--red);border-bottom:1px solid var(--line);padding-bottom:6px;margin:0 0 6px}
+.toc ol{list-style:none;margin:0;padding:0;columns:2 320px;column-gap:32px}
+.toc li{break-inside:avoid;padding:5px 0;font:400 18px/1.35 "EB Garamond",serif}
+.toc li a{color:var(--ink);text-decoration:none}
+.toc li a:hover{color:var(--red);text-decoration:underline}
+.toc li small{display:block;font:13px Jost,sans-serif;color:var(--soft)}
